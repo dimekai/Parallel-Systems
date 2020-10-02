@@ -1,11 +1,10 @@
 # Archivo Makefile usando cadenas para ejecucion
 
 PROYECTO=muestreo
-DESTDIR=/usr/local/bin	# Direccion destino
-CFLAGS=-Wall	# Banderas del compilador
-LFLAGS=-lm	# Banderas del enlazador.
-CC=gcc		# Instruccion del compilador
-
+DESTDIR=/usr/local/bin
+CFLAGS=-Wall
+LFLAGS=-lm
+CC=gcc
 
 all: $(PROYECTO)
 
