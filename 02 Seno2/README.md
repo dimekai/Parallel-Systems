@@ -1,4 +1,4 @@
-#  Aplicación para la función Seno con modulos
+#  Aplicación para la función Seno con módulos
 
 * La diferencia yace en que el código está en módulos, es decir, está contenido en distintos archivos para un mejor mantenimiento.
 
@@ -32,7 +32,24 @@
 		<img align="center" src="imgs/03gnuplot.png" width="500"/>
 		<br>
 		<p>Y la gráfica resultante sería la siguiente</p>
-		<br>
 		<img align="center" src="imgs/04grafica.png" width="500"/>
 	</li>
 </ol>
+
+## Objetivos falsos (False targets)
+<ol>
+	<li>
+		<p>Si queremos que nuestro programa se ejecute en cualquier lugar de nuestro sistema y sin necesidad de especificar que es un ejecutable, o sea, sin usar: <strong>./muestreo</strong>, lo que debemos de realizar es ejecutar el siguiente comando: <strong>make install</strong>. </p>
+		<img align="center" src="imgs/06makeinstall.png" width="500"/>
+	</li>
+	<li>
+		<p>Si ahora queremos dehacer esta acción, simplemente debemos de ejecutar el comando <strong>make uninstall</strong>, tal y como se muestra.</p>
+		<img align="center" src="imgs/07makeuninstall.png" width="500"/>
+	</li>
+	<li>
+		<p>Hasta este punto, esto es todo lo que hace el programa. Ahora para deshacernos de los archivos objetos (<strong>(*.o)</strong>) hacemos uso de nuestro <strong>objetivo falso clear</strong>, ejecutando el  siguiente comando: <strong>make clean</strong>, tal y como se muestra en la imagen</p>
+		<img align="center" src="imgs/05makeclean.png" width="500"/>
+	</li>
+</ol>
+
+<p>Y ya compa.</p>
