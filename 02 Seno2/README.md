@@ -20,22 +20,19 @@
 ## Demostración
 <ol>
 	<li>
-		<p align="center">Primero realizamos el comando <strong>make</strong> para generar los archivos objetos con el fin de ejecutar el programa y posteriormente lo ejecutamos: <strong>./muestreo</strong> </p> 
-		<br>
-		<img src="imgs/01make.png" width="350"/>
+		<p>Primero realizamos el comando <strong>make</strong> para generar los archivos objetos con el fin de ejecutar el programa y posteriormente lo ejecutamos: <strong>./muestreo</strong> </p> 
+		<img align="center" src="imgs/01make.png" width="500"/>
 	</li>
 	<li>
 		<p>Una vez que se ha ejecutado, se habrá generado un archivo llamado <strong>seno.dat</strong>, el cual contiene las 512 muestras. Si ejecutamos el comando <strong>ll</strong> en la terminal veremos lo siguiente: </p>
-		<br>
-		<img src="imgs/02senodat.png" width="350"/>
+		<img align="center" src="imgs/02senodat.png" width="500"/>
 	</li>
 	<li>
 		<p>Podemos graficar cada una de esas muestras haciendo uso de la herramienta <strong>gnuplot</strong>. Para poder hacer eso, ejecutamos los comandos mostrados en la imagen:</p>
-		<br>
-		<img src="imgs/03gnuplot.png" width="350"/>
+		<img align="center" src="imgs/03gnuplot.png" width="500"/>
 		<br>
 		<p>Y la gráfica resultante sería la siguiente</p>
 		<br>
-		<img src="imgs/04grafica.png" width="350"/>
+		<img align="center" src="imgs/04grafica.png" width="500"/>
 	</li>
 </ol>
