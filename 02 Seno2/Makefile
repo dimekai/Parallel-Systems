@@ -1,4 +1,4 @@
-# Archivo Makefile usando cadenas
+# Archivo Makefile usando cadenas para ejecucion
 
 PROYECTO=muestreo
 DESTDIR=/usr/local/bin	# Direccion destino
