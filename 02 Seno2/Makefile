@@ -1,15 +1,36 @@
-# Archivo Makefile simple
+# Archivo Makefile usando cadenas
 
-all: muestreo
+PROYECTO=muestreo
+DESTDIR=/usr/local/bin	# Direccion destino
+CFLAGS=-Wall	# Banderas del compilador
+LFLAGS=-lm	# Banderas del enlazador.
+CC=gcc		# Instruccion del compilador
+
+
+all: $(PROYECTO)
 
 muestreo.o: muestreo.c
-	gcc -c muestreo.c -Wall
+	$(CC) -c muestreo.c $(CFLAGS)
 
 procesamiento.o: procesamiento.c
-	gcc -c procesamiento.c -Wall
+	$(CC) -c procesamiento.c $(CFLAGS)
 
 archivos.o: archivos.c
-	gcc -c archivos.c -Wall
+	$(CC) -c archivos.c $(CFLAGS)
 
-muestreo: muestreo.o procesamiento.o archivos.o
-	gcc muestreo.o procesamiento.o archivos.o -o muestreo -lm
+$(PROYECTO): muestreo.o procesamiento.o archivos.o
+	$(CC) muestreo.o procesamiento.o archivos.o -o $(PROYECTO) $(LFLAGS)
+
+.PHONY: clean
+
+install: all
+	if [ ! -d $(DESTDIR) ]; then \
+		sudo mkdir $(DESTDIR); \
+	fi; \
+	sudo cp $(PROYECTO) $(DESTDIR)
+
+uninstall:
+	sudo rm $(DESTDIR)/$(PROYECTO)
+
+clean:
+	rm -f *.o $(PROYECTO)
