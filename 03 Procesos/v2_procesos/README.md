@@ -8,24 +8,16 @@ Este programa genera **`N`** elementos aleatorios y los guarda en un arreglo **`
 
 ## Estructura del código
 Para empezar vamos a utilizar como plantilla el código de `proc1.c`, con algunas modificaciones realizadas. Este código lo llamaremos `proc2.c`, el cuál contendrá las siguientes funciones:
-* `función main()`
-	Contiene la lógica de ejecución del programa principal.
-* `función proceso_padre()`
-	Da una descripción de cada hijo, mostrando su `estado` y `PID` asociado. 
-* `función proceso_hijo(np, datos)`
-	Dependiendo del número de proceso (**`np`**) que sea, llama a la función para encontrar el __mayor o menor número__ en el arreglo **`datos`**.
+* `función main()`: Contiene la lógica de ejecución del programa principal.
+* `función proceso_padre()`: Da una descripción de cada hijo, mostrando su `estado` y `PID` asociado. 
+* `función proceso_hijo(np, datos)`: Dependiendo del número de proceso (**`np`**) que sea, llama a la función para encontrar el __mayor o menor número__ en el arreglo **`datos`**.
 	* `np = 0`: Llama a la función `encontrarMayor(datos)`.
 	* `np = 1`: Llama a la función `encontrarMenor(datos)`.
-* `función reservarMemoria()`
-	Reserva memoria para el arreglo de enteros llamado _`datos`_.
-* `función llenarArreglo(datos)`
-	Genera números entre 0 y 256 para los almacenarlos en el arreglo antes creado __`datos`__.
-* `función imprimirArreglo(datos)`
-	Imprime los valores del arreglo __`datos`__ por filas (cada 16 elementos).
-* `función encontrarMayor(datos)`
-	Encuentra el valor máximo en el arreglo __`datos`__.
-* `función encontrarMenor(datos)`
-	Encuentra el valor mínimo en el arreglo __`datos`__.
+* `función reservarMemoria()`: Reserva memoria para el arreglo de enteros llamado _`datos`_.
+* `función llenarArreglo(datos)`: Genera números entre 0 y 256 para los almacenarlos en el arreglo antes creado __`datos`__.
+* `función imprimirArreglo(datos)`: Imprime los valores del arreglo __`datos`__ por filas (cada 16 elementos).
+* `función encontrarMayor(datos)`: 	Encuentra el valor máximo en el arreglo __`datos`__.
+* `función encontrarMenor(datos)`: Encuentra el valor mínimo en el arreglo __`datos`__.
 
 ### Ejecutar programa
 Para poder ejecutar este programa es suficiente con ejecutar el comando __`make`__ en una terminal en la ruta donde tienes guardado el archivo __`proc2.c`__.
@@ -36,7 +28,10 @@ Para poder ejecutar este programa es suficiente con ejecutar el comando __`make`
 
 ## Desarrollo
 Vamos a ir definiendo cada una de las funciones tal y como se vio en clase. En un principio nuestro codigo [aquí](https://gist.github.com/JesusDiaz08/6703c5121482ad4d33ed24505476c608) se muestra.
+
+
 <script src="https://gist.github.com/JesusDiaz08/6703c5121482ad4d33ed24505476c608.js"></script>
+
 
 Ahora vamos a ir desarrollando cada una de las funciones.
 
@@ -50,8 +45,10 @@ void proceso_hijo(int np){
 	exit(np);
 }
 ```
+
 Sin embargo, al momento de ir desarrollando un poco más el programa, el contenido de esta función cambió con el fin de __encontrar el mayor o menor número del arreglo__ `datos` dependiendo del valor del índice.
 En este caso el párametro __`np`__ actúa como nuestro índice para __ayudar a la distribución de tareas y procesos__.
+
 ```c
 void proceso_hijo(int np, int *datos) {
 	int mayor, menor;	
@@ -67,19 +64,27 @@ void proceso_hijo(int np, int *datos) {
 
 ### Función `proceso_padre`
 El objetivo de esta función es saber qué proceso hijo se está ejecutando a partir de su `PID` y conocer su estado. Este estado es determinado gracias a la función `exit()` que se usa dentro de cada bloque en la función `proceso_hijo`.
-Es importante mencionar que al momento de retornar el valor la función `exit()`, este valor se regresa __con un corrimiento de 8 bits a la izquierda__. Es decir, si nosotros hacemos lo siguiente: `exit(1)`, la salida será __256__.
+Es importante mencionar que al momento de retornar el valor la función `exit()`, este valor se regresa __con un corrimiento de 8 bits a la izquierda__. 
+
+Es decir, si nosotros hacemos lo siguiente: `exit(1)`, la salida será __256__.
+
+
 | | $2^{10}$ | $2^{9}$ | $2^{8}$ | $2^{7}$ | $2^{6}$ | $2^{5}$ | $2^{4}$ | $2^{3}$ | $2^{2}$ | $2^{1}$ | $2^{0}$|
 |---|----|---|---|---|---|---|---|---|---|---|---|---|
 | | 1024 | 512 | 256 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1|
 |exit(1) |  |  |  |  |  |  |  |  |  |  | 1|
 |output |  |  | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0|
 
+
 Si nosotros hacemos ahora `exit(2)`, ¿qué valor sería? Nos daría como salida el __512__.
+
+
 | | $2^{10}$ | $2^{9}$ | $2^{8}$ | $2^{7}$ | $2^{6}$ | $2^{5}$ | $2^{4}$ | $2^{3}$ | $2^{2}$ | $2^{1}$ | $2^{0}$|
 |---|----|---|---|---|---|---|---|---|---|---|---|---|
 | | 1024 | 512 | 256 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1|
 |exit(1) |  |  |  |  |  |  |  |  |  | 1 | |
 |output |  |  1| 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0|
+
 
 Siempre serán 8 bits recorridos a la izquierda. Por tanto, para recuperar el valor original lo que se debe hacer es recorrer el valor de retorno 8 bits hacia la derecha. En este caso, la variable `estado` contiene el valor de retorno de `exit()`, y es a esta variable a la que se le hace el corrimiento: `(estado>>8)`.
 
