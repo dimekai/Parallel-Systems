@@ -1,4 +1,36 @@
-# Generando procesos: Proceso hijo y padre
+# Procesos
+
+Esta carpeta contiene el ejemplos y ejercicios utilizando procesos.
+
+1. __Directorio `v1`__: Contiene un programa sencillo para generar proceso hijo y proceso padre para sumar y restar dos números. 
+2. __Directorio `v2`__: Contiene un programa que calcula el valor mayor y menor de un arreglo, asignando un proceso para cada tarea.
+
+## Descripción de procesos
+
+
+- La vida del __proceso__ inicia con la llamada al sistema `fork()`.
+- El proceso que llama a `fork()` es el __padre__, mientras que el proceso nuevo es el __hijo__.
+- El padre reanuda la ejecución y el hijo inicia la ejecución en el mismo lugar donde devuelve la llamada a `fork()`.
+- El proceso termina y libera sus recursos con la llamada al sistema `exit()`.
+- El proceso puede __preguntar sobre el estado de un proceso hijo terminado__ con al llamada al sistema `wait()`.
+- Cuando un proceso termina __se coloca en un estado zombie__ que representa el proceso terminado hasta que el padre llama a `wait()`.
+
+Para tener más detalles de llamada al sistema `fork()`, se puede ejecutar el comando `man fork` en una terminal.
+
+```bash
+NAME
+       fork - create a child process
+
+SYNOPSIS
+       #include <sys/types.h>
+       #include <unistd.h>
+
+       pid_t fork(void);
+....
+....
+```
+
+## Detalles de ejecución
 
 * Para poder ejecutar el siguiente programa lo que se debe de hacer es crear un archivo makefile:
 	- `makefile`: Alberga las instrucciones de compilación para que no tengas que escribirlas cada vez que quieres compilar un archivo.
@@ -10,11 +42,11 @@
 		```
 	- `make uninsatll`: Dehace la ejecución del objetivo falso `make install`.
 
-## Explicación
+### Explicación
 * `-lm` : Al utilizar el comando `-lm` lo que hace es que _linkear_ los archivos para poder trabajar con ello y que no marque errores.
 * `-Wall`: Al usar este comando, le dice al compilador que nos muestre todos aquellos __warnings__. Esto es útil para visualizar aquellas variables y/o espacios de memoria no usados
 
-## Reglas de patrón
+### Reglas de patrón
 * `%.o: %.c` : genera todos los archivos `%.o` a partir de todos los archivos `%.c`
 
 * __Variable automáticas__: Nos ayuda a eemplazar un valor específico dentro de los comandos. En el comando, vamos a poner el mismo nombre de la dependencia.
@@ -70,3 +102,43 @@
 		$(PROYECTO): $(src:%.c=%.o)
 			$(CC) $^ -o $@ $(LFLAGS)
 		```
+
+### Makefile
+A continuación se muestra el makefile para generar poder correr nuestro programa.
+
+```sh
+# Archivo Makefile usando cadenas para ejecucion
+
+PROYECTO=project_name
+DESTDIR=/usr/local/bin
+CFLAGS=-Wall
+LFLAGS=-lm
+CC=gcc
+
+# Source or file name .c
+src=$(wildcard *.c)
+
+all: $(PROYECTO)
+
+# target : dependency
+%.o: %.c
+	$(CC) -c $< $(CFLAGS)
+
+#$(PROYECTO): DependenciesList
+$(PROYECTO): $(src:%.c=%.o)
+	$(CC) $^ -o $@ $(LFLAGS)
+
+.PHONY: clean
+
+install: all
+	if [ ! -d $(DESTDIR) ]; then \
+		sudo mkdir $(DESTDIR); \
+	fi; \
+	sudo cp $(PROYECTO) $(DESTDIR)
+
+uninstall:
+	sudo rm $(DESTDIR)/$(PROYECTO)
+
+clean:
+	rm -f *.o $(PROYECTO)
+```
