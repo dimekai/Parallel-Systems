@@ -15,11 +15,11 @@ void proceso_hijo(int np, int *datos);
 int buscarMayor(int * datos);
 int buscarMenor(int * datos);
 
-
-// Proceso hijo : suma
-// Proceso padre: resta
 int main()
 {
+	// Para la semilla será el pid del proceso padre
+	srand(getpid());
+	
 	pid_t pid;
 	register int np;
 	int *datos;
@@ -69,7 +69,7 @@ void imprimirArreglo(int *datos)
 		}
 		printf("%3d ", datos[i]);
 	}
-	printf("\n");
+	printf("\n\n");
 }
 
 void llenarArreglo(int *datos)
@@ -105,8 +105,9 @@ void proceso_padre()
 
 	for (np = 0; np < NUM_PROC; np++)
 	{
+		// El estado regresara el mayor o menor
 		pid = wait(&estado);
-		printf("Proceso hijo %d\tPID: %d \t terminando\n", (estado>>8), pid);
+		printf("Proceso con PID: %d y retorno %d \n", pid, (estado>>8));
 	}
 }
 
