@@ -1,5 +1,3 @@
-
-
 # Generación de procesos v2: Proceso hijo y padre
 
 ## Descripción.
@@ -108,6 +106,12 @@ void proceso_hijo(int np, int *datos) {
 	}
 }
 ```
+
+### FUnción `buscarMenor()`
+
+
+### Función `buscarMayor()`
+
 
 ### Función `proceso_padre`
 El objetivo de esta función es saber qué proceso hijo se está ejecutando a partir de su `PID` y conocer su estado. Este estado es determinado gracias a la función `exit()` que se usa dentro de cada bloque en la función `proceso_hijo`.
@@ -467,3 +471,13 @@ int buscarMenor(int * datos) {
 	return menor;
 }
 ```
+## Ejecución
+-Para ejecutar el programa, simplemente hacemos un make
+
+> En un principio los valores que se generan siempre son los mismos. Esto es porque no tenemos una semilla para la función random.
+
+<img align="center" src="imgs/v2_01.png" width="500"/>
+
+- Para evitar eso vamos a usar una semilla, poniéndola al principio de la función `main()`, de la siguiente manera: `srand(getpid());`. Una vez que se ejecuta la aleatoriedad se ve reflejada.
+
+<img align="center" src="imgs/v2_0.png" width="500"/>
