@@ -480,4 +480,4 @@ int buscarMenor(int * datos) {
 
 - Para evitar eso vamos a usar una semilla, poniéndola al principio de la función `main()`, de la siguiente manera: `srand(getpid());`. Una vez que se ejecuta la aleatoriedad se ve reflejada.
 
-<img align="center" src="imgs/v2_0.png" width="500"/>
+<img align="center" src="imgs/v2_02.png" width="500"/>
