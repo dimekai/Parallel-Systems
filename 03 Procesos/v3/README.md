@@ -16,7 +16,7 @@ En un principio se utiliza la misma estructura que el archivo contenido en `v2/p
 - Definir los archivos `.h` correspondientes: `procesos.h`, `procesamiento.h`, `helper.h` y `defs.h` (contiene N y NUM_PROC).
 - Archivo Makefile completo
 
-FOTO DE LA ESTRUCTURA
+<img align="center" src="img/diagram_tarea1.png" width="500"/>
 
 * `función main()`: Contiene la lógica de ejecución del programa principal.
 * `función proceso_padre()`: Da una descripción de cada hijo, mostrando su `estado` y `PID` asociado. 
