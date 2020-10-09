@@ -1,6 +1,6 @@
 # Archivo Makefile usando cadenas para ejecucion
 
-PROYECTO=proc2
+PROYECTO=tarea_proc3
 DESTDIR=/usr/local/bin
 CFLAGS=-Wall
 LFLAGS=-lm
