@@ -10,6 +10,20 @@ Este programa crea una __tubería compartida__, creando cuatro procesos. Cada un
 
 En lugar de usar `exit()` y `wait()` para mandar los resultados de los procesos hijos, usaremos tuberías (y su archivo descriptor) para ver los resultados generados de los procesos hijos.
 
+### Ejecución del programa
+> make
+> ./pipe1
+
+<img align="center" src="imgs/ipc_v1_make.png" width="500"/>
+
+Sin embargo, cuando lo ejecutamos varias veces puede llegar a verse algo distinto, como lo siguiente:
+
+<img align="center" src="imgs/ipc_v1_tuberiacompartida.png" width="500"/>
+
+El detalle ocurre ya porque estamos usando una sola tuberia, por ser una __tubería compartida__. Es decir, los 4 procesos hijos están escribiendo sobre la misma tubería pero ¿en qué forma? Se hace en la forma en que el planificador los haya asignado.
+
+> El problema se resuleve haciendo una tuberia por cada operación (el nuevo programa está en v2/pip2.c)
+
 ## Desarrollo
 En un principio se toma como plantilla el archivo contenido en `03 Procesos/v2/proc2.c`, el cuál se le harán modificaciones.
 
@@ -94,7 +108,7 @@ void proceso_hijo(int np, int pipefd[]) {
 		write(pipefd[1], &multi, sizeof(int));
 	}
 	else if (np == 3) {
-		divi = num1 * num2;
+		divi = num1 / num2;
 		write(pipefd[1], &divi, sizeof(int));
 	}
 
@@ -141,3 +155,5 @@ void proceso_padre(int pipefd[]) {
 	}
 }
 ```
+
+
