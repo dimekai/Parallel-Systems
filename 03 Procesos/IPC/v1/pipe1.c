@@ -55,27 +55,42 @@ void proceso_padre(int pipefd[])
 	pid_t pid;
 	int estado, numproc, resultado;
 
+	close(pipefd[1]);
+
 	for (np = 0; np < NUM_PROC; np++)
 	{
 		
 		pid = wait(&estado);  	// Aqui nos dice que ya acabo el proceso hijo
-		numproc = estado >> 8;	// El estado regresara el número del proceso
-
 		read(pipefd[0], &resultado, sizeof(int)); // Usamos el descriptor de lectura
+		numproc = estado >> 8;	// El estado regresara el número del proceso
 
 		if (numproc == 0)
 		{
-			printf("Termina el proceso %d\t", numproc);
+			printf("Termina el proceso %d con PID %d\t", numproc, pid);
 			printf("La suma es: %d\n", resultado);
 		}
-
-		printf("Proceso con PID: %d y retorno %d \n", pid, (estado>>8));
+		else if (numproc == 1)
+		{
+			printf("Termina el proceso %d con PID %d\t", numproc, pid);
+			printf("La resta es: %d\n", resultado);
+		}
+		else if (numproc == 2)
+		{
+			printf("Termina el proceso %d con PID %d\t", numproc, pid);
+			printf("La multiplicacion es: %d\n", resultado);
+		}
+		else if (numproc == 3)
+		{
+			printf("Termina el proceso %d con PID %d\t", numproc, pid);
+			printf("La division es: %d\n", resultado);
+		}
 	}
+	close(pipefd[0]);
 }
 
 void proceso_hijo(int np, int pipefd[])
 {
-	int num1 = 72, num2 = 9;
+	int num1 = 20, num2 = 4;
 	int suma, resta, multi, divi;
 
 	close(pipefd[0]);
@@ -97,7 +112,7 @@ void proceso_hijo(int np, int pipefd[])
 	}
 	else if (np == 3)
 	{
-		divi = num1 * num2;
+		divi = num1 / num2;
 		write(pipefd[1], &divi, sizeof(int));	// descriptor de escritura de la tuberia
 	}
 
