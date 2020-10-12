@@ -1,4 +1,4 @@
-# Utilizando tuberías (pipes) v1: Operaciones aritméticas
+# Utilizando tuberías (pipes) compartida v1: Operaciones aritméticas
 
 ## Descripción.
 Este programa crea una __tubería compartida__, creando cuatro procesos. Cada uno de estos procesos realiza una operación aritmética básica. Dichas operaciones aritméticas son:
@@ -12,6 +12,7 @@ En lugar de usar `exit()` y `wait()` para mandar los resultados de los procesos 
 
 ### Ejecución del programa
 > make
+>
 > ./pipe1
 
 <img align="center" src="imgs/ipc_v1_make.png" width="500"/>
