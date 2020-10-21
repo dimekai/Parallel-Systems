@@ -22,23 +22,23 @@ void proceso_padre()
 	for (np = 0; np < NUM_PROC; np++)
 	{
 		pid = wait(&estado);
-		printf("Proceso con PID: %d ", pid);
+		printf("Proceso con PID: %d | Hijo %d |", pid, np);
 
 		if (np == 0)
 		{
-			printf("y el numero mayor es: %d\n", (estado>>8));
+			printf(" El numero mayor es: %d\n", (estado>>8));
 		}
 		else if (np == 1)
 		{
-			printf("y el numero menor es: %d\n", (estado>>8));	
+			printf(" El numero menor es: %d\n", (estado>>8));	
 		}
 		else if (np == 2)
 		{
-			printf("y el promedio es: %d\n", (estado>>8));
+			printf(" El promedio es: %d\n", (estado>>8));
 		}
 		else if (np == 3)
 		{
-			printf("y hay %d numeros pares\n", (estado>>8));
+			printf(" Hay %d numeros pares\n", (estado>>8));
 		}
 		//printf("Proceso con PID: %d y retorno %d \n", pid, (estado>>8));
 	}
