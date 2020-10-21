@@ -60,7 +60,7 @@ int cuantosPares(int * datos){
 
 	for (i = 0; i < N; i++)
 	{
-		if (datos[i]%2 == 0)
+		if (!(datos[i]&1))
 		{
 			nums_pares++;
 		}
