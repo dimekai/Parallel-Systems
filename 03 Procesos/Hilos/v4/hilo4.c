@@ -3,20 +3,29 @@
 #include <pthread.h>
 #define NUM_HILOS 4
 
+// Problema de condicion de carrera
+
 void * funcHilo(void * arg);
+int contador;
 
 int main()
 {	
 	register int nh;
 	pthread_t tids[NUM_HILOS];  // Arreglo de identificadores
-	int *resultado, nhs[NUM_HILOS];
+	int *num_hilo, nhs[NUM_HILOS];
 	
 	printf("Ejemplo de hilos\n");
 
+	contador = 0;
+
 	for (nh = 0; nh < NUM_HILOS; nh++)
 	{
-		// Le mandamos cada variable para cada numero de hilo
 		nhs[nh] = nh;
+		//nhs[0] = 0
+		//nhs[1] = 1
+		//nhs[2] = 2
+		//nhs[3] = 3
+
 		// tid, atributos, la funcion a ejecutar, parametros
 		// Le mandamos el número del hilo
 		pthread_create(&tids[nh], NULL, funcHilo, (void *)&nhs[nh]);
@@ -37,8 +46,8 @@ int main()
 
 	for (nh = 0; nh < NUM_HILOS; nh++)
 	{
-		pthread_join(tids[nh], (void **)&resultado);
-		printf("El resultado es: %d\n", *resultado);
+		pthread_join(tids[nh], (void **)&num_hilo);
+		printf("Hilo %d terminado.\n", *num_hilo);	
 	}
 
 	return 0;
@@ -48,29 +57,17 @@ void * funcHilo(void * arg)
 {
 	// Primero casteo y luego obtengo su contenido
 	int nh = *(int *)arg; 
-	int num1 = 20, num2 = 4;
-	int *res = malloc(sizeof(int));   // el resultado de cada operacion tiene de estar en vv.aa diferentes
-									  // también podria usarse un arreglo
+	register int i = 0; 	// 32 bits  ->  1111 .... 1111 complemento a 2 (-1)
 
-	printf("Hilo %d en ejecución.\n", nh);
+	contador++;
+	printf("Hilo %d en ejecución con contador %d\n", nh, contador);
 	
-	// Aqui hago la paralelización
-	if (nh == 0)
-	{
-		*res = num1 + num2;
-	}
-	else if (nh == 1)
-	{
-		*res = num1 - num2;
-	}
-	else if (nh == 2)
-	{
-		*res = num1 * num2;
-	}
-	else if (nh == 3)
-	{
-		*res = num1 / num2;
-	}
+	//printf("Sleep de 1 segundo\n");
+	//sleep(1); // es NO-REENTRANTE
+	// Usamos la idea de los NOPS de Micros
+	while((--i));   // Contará 4 GB de ciclo, 2^32 iteraciones    -> ON
+	printf("Hilo %d en ejecución con contador %d\n", nh, contador);
 
-	pthread_exit((void *)res);
+	// Regreso cuál es el número de hilo que acaba
+	pthread_exit(arg);
 }
